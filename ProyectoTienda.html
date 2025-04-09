@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script defer src="https://app.embed.im/snow.js"></script>
+    <title>proyecto localstorage(II)</title>
+    <link rel="stylesheet" href="ProyectoTienda.css">
+    <link rel="icon" href="logo2.png">
+</head>
+<body>
+
+    <header>
+    </header>
+    <nav>
+        <div><a href="ProyectoTienda.html">Inicio</a></div>
+        <div><a href="formulario.html">Finalizar Compra</a></div>
+    </nav>
+
+    <div id="contenido">
+        <section id="catalogo">
+            <h2>Catálogo de Productos</h2>
+
+            <div class="productos">
+                
+                <div class="producto1">
+                    <img src="portatil.jpg" alt="Producto 1">
+                    <h3>PORTATIL GAMING HP VICTUS</h3>
+                    <p>PORTATIL GAMING HP VICTUS 15-fa1012ns CORE I7-13700H HASTA 5.0GHZ/ 16GB /1TB SSD/ RTX 4060 8GB / 15.6" FHD/ FREEDOS</p>
+                    <p class="precio1"> <strong>1372,76€</strong> </p>
+                    <button class="botonagregar1">Añadir al Carrito</button>
+                </div>
+
+                <div class="producto2">
+                    <img src="monitor.jpg" alt="Producto 2">
+                    <h3>MONITOR GAMING MSI</h3>
+                    <p>MONITOR GAMING MSI G2712F 27"FHD 1920 x 1080 / 1MS, /180HZ / 2 X HDMI/ DP</p>
+                    <p class="precio2"> <strong>149,00€ </strong> </p>
+                    <button class="botonagregar2">Añadir al Carrito</button>
+                </div>
+
+                <div class="producto3">
+                    <img src="ipad.jpg" class="imagen3" alt="Producto 3">
+                    <h3>APPLE iPad</h3>
+                    <p>APPLE iPad 10.9" 64GB Plata</p>
+                    <p class="precio3"><strong>561,38€</strong></p>
+                    <button class="botonagregar3">Añadir al Carrito</button>
+                </div>
+
+                <div class="producto4">
+                    <img src="teclado.jpg" class="imagen4" alt="Producto 4">
+                    <h3>TECLADO HP</h3>
+                    <p>HP 485 CFT WD KBD Spain</p>
+                    <p class="precio4"> <strong>60,00€</strong> </p>
+                    <button class="botonagregar4">Añadir al Carrito</button>
+                </div>
+
+                <div class="producto5">
+                    <img src="iphone.jpg" class="imagen5" alt="Producto 5">
+                    <h3>IPHONE 16</h3>
+                    <p>APPLE IPHONE 16 256GB TEAL </p>
+                    <p class="precio5"> <strong>994,95€</strong> </p>
+                    <button class="botonagregar5">Añadir al Carrito</button>
+                </div>
+
+                <div class="producto6">
+                    <img src="lampara.jpg" class="imagen6" alt="Producto 6">
+                    <h3>LAMPARA LED</h3>
+                    <p>LAMPARA DE ATMOSFERA MULTIFUNCIÓN </p>
+                    <p class="precio6"> <strong>31,99€</strong> </p>
+                    <button class="botonagregar6">Añadir al Carrito</button>
+                </div>
+
+            </div>
+        </section>
+    </div>
+
+    <div class="carrito-box">
+        <h2>Carrito de Compras</h2>
+        <ul id="lista_carrito"></ul>
+        <p id="Carrito"><strong>Total: 0.00€</strong></p>
+        <button onclick="vaciarCarrito()">Vaciar Carrito</button>
+        <a href="formulario.html"><button>Finalizar compra</button></a>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+            let total = parseFloat(localStorage.getItem("total")) || 0;
+    
+            function agregar(nombre, precio) {
+                let productoExistente = carrito.find(item => item.nombre === nombre);
+    
+                if (productoExistente) {
+                    productoExistente.cantidad += 1;
+                } else {
+                    carrito.push({ nombre, precio, cantidad: 1 });
+                }
+    
+                total += precio;
+                localStorage.setItem("carrito", JSON.stringify(carrito));
+                localStorage.setItem("total", total);
+                actualizarCarrito();
+            }
+    
+            function eliminarProducto(index) {
+                total -= carrito[index].precio * carrito[index].cantidad;
+                carrito.splice(index, 1);
+                localStorage.setItem("carrito", JSON.stringify(carrito));
+                localStorage.setItem("total", total);
+                actualizarCarrito();
+            }
+    
+            function vaciarCarrito() {
+                carrito = [];
+                total = 0;
+                localStorage.removeItem("carrito");
+                localStorage.removeItem("total");
+                actualizarCarrito();
+            }
+    
+            function actualizarCarrito() {
+                const lista = document.getElementById("lista_carrito");
+                const totalTexto = document.getElementById("Carrito");
+                lista.innerHTML = "";
+    
+                carrito.forEach((item, index) => {
+                    const li = document.createElement("li");
+                    li.textContent = `${item.nombre} - ${item.precio}€ x${item.cantidad}`;
+    
+                    const botonEliminar = document.createElement("button");
+                    botonEliminar.textContent = "Eliminar";
+                    botonEliminar.onclick = () => eliminarProducto(index);
+    
+                    li.appendChild(botonEliminar);
+                    lista.appendChild(li);
+                });
+    
+                totalTexto.innerHTML = `<strong>Total: ${total.toFixed(2)}€</strong>`;
+            }
+    
+            document.querySelector(".botonagregar1").onclick = () => agregar("PORTÁTIL GAMING HP VICTUS", 1372.76);
+            document.querySelector(".botonagregar2").onclick = () => agregar("MONITOR GAMING MSI", 149.00);
+            document.querySelector(".botonagregar3").onclick = () => agregar("APPLE iPad", 561.38);
+            document.querySelector(".botonagregar4").onclick = () => agregar("TECLADO HP", 60.00);
+            document.querySelector(".botonagregar5").onclick = () => agregar("IPHONE 16", 994.95);
+            document.querySelector(".botonagregar6").onclick = () => agregar("LÁMPARA LED", 31.99);
+    
+            actualizarCarrito();
+    
+            window.vaciarCarrito = vaciarCarrito;
+        });
+        
+    </script>
+
+</body>
+</html>

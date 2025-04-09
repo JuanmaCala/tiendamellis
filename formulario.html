@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script defer src="https://app.embed.im/snow.js"></script>
+    <title>Document</title>
+    <link rel="stylesheet" href="style2.css">
+    <link rel="icon" href="logo2.png">
+
+</head>
+<body>
+
+<div class="logo">
+    <img src="logo.png" alt="">
+</div>
+
+<form>
+    <h1>Formulario de Pago</h1>
+        <p>Los campos obligatorios se han marcado con <strong>*</strong>.</p>
+        <nav>
+          <div><a class="inicioformulario" href="ProyectoTienda.html">Inicio</a></div>
+        </nav>
+
+    <section>
+
+    <fieldset>
+      <legend><h2>Información de contacto</h2></legend>
+
+    <fieldset>
+        <legend>Tratamiento</legend>
+        <label><input type="radio" name="title" value="sr">Hombre</label><br>
+        <label><input type="radio" name="title" value="dr">Mujer</label><br>
+        <label><input type="radio" name="title" value="otro">Otro</label> <br>
+    </fieldset>
+      <p><label>Nombre: <input type="text" name="name" required /> *</label></p>
+      <p><label>Correo electrónico: <input type="email" name="email" required> *</label></p>
+      <p><label>Contraseña: <input type="password" name="password" required> *</label></p>
+    </fieldset>
+    </section>
+
+
+    <section>
+    <fieldset>
+      <legend><h2>Información de pago</h2></legend>
+      <p><label>Tipo de tarjeta:
+        <select name="card_type">
+          <option value="visa">Visa</option>
+          <option value="mc">Mastercard</option>
+          <option value="amex">American Express</option>
+        </select>
+      </label></p>
+      <p><label>Número de tarjeta: <input type="tel" name="card_number" required> *
+      </label></p>
+      <p><label>Fecha de vencimiento: <input type="date" name="expiration" required> *
+      </label></p>
+    </fieldset>
+    </section>
+
+    <p><button onclick="mostrarAlerta()" type="submit">Validar el pago</button></p>
+
+    <script>
+        function mostrarAlerta() {
+            alert("¡Pago realizado con éxito! Gracias por tu compra.");
+        }
+    </script>
+
+</form>
+
+
+
+</body>
+</html>
